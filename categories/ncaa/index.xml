@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on Peyton Kort Blog</title>
-    <link>/post/</link>
-    <description>Recent content in Posts on Peyton Kort Blog</description>
+    <title>NCAA on Peyton Kort Blog</title>
+    <link>/categories/ncaa/</link>
+    <description>Recent content in NCAA on Peyton Kort Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 23 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 23 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="/categories/ncaa/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>My NCAA Bracket</title>
       <link>/2021/03/23/my-ncaa-bracket/</link>
@@ -15,15 +15,6 @@
       <guid>/2021/03/23/my-ncaa-bracket/</guid>
       <description>  Bracket Analysis Second Header Third Level My bracket is a dumpster fire. Here’s why.
 library(tidyverse) ## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ── ## ✓ ggplot2 3.3.3 ✓ purrr 0.3.4 ## ✓ tibble 3.0.5 ✓ dplyr 1.0.4 ## ✓ tidyr 1.1.2 ✓ stringr 1.4.0 ## ✓ readr 1.4.0 ✓ forcats 0.5.1 ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ── ## x dplyr::filter() masks stats::filter() ## x dplyr::lag() masks stats::lag()    </description>
-    </item>
-    
-    <item>
-      <title>Lorem Ipsum</title>
-      <link>/2015/01/01/lorem-ipsum/</link>
-      <pubDate>Thu, 01 Jan 2015 13:09:13 -0600</pubDate>
-      
-      <guid>/2015/01/01/lorem-ipsum/</guid>
-      <description>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</description>
     </item>
     
   </channel>
