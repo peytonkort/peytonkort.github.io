@@ -13,8 +13,8 @@
       <pubDate>Fri, 02 Apr 2021 00:00:00 +0000</pubDate>
       
       <guid>/2021/04/02/can-you-predict-a-cinderella-team/</guid>
-      <description>Teams like VCU and UCLA have had incredible runs in March. Back in 2011, VCU made it all the way to the Final Four as an 11 seed, and having to play in the First Four. UCLA this year has made that exact same run.
-library(tidyverse) ## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ── ## ✓ ggplot2 3.3.3 ✓ purrr 0.3.4 ## ✓ tibble 3.0.5 ✓ dplyr 1.0.4 ## ✓ tidyr 1.</description>
+      <description>Teams like VCU and UCLA have had incredible runs in March. Back in 2011, VCU made it all the way to the Final Four as an 11 seed. UCLA this year has made that exact same run as an 11 seed as well.
+But what do these two teams have in common. Both were a team that had to play in the First Four, which are the lowest at-large teams facing off against each other.</description>
     </item>
     
   </channel>

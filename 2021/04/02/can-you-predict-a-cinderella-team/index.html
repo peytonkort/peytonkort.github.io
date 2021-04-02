@@ -62,7 +62,7 @@
 
   <article class="article">
     
-    <span class="article-duration">2 min read</span>
+    <span class="article-duration">4 min read</span>
     
 
     <h1 class="article-title">Can you predict a Cinderella team?</h1>
@@ -76,7 +76,8 @@
 <script src="/2021/04/02/can-you-predict-a-cinderella-team/index_files/header-attrs/header-attrs.js"></script>
 
 
-<p>Teams like VCU and UCLA have had incredible runs in March. Back in 2011, VCU made it all the way to the Final Four as an 11 seed, and having to play in the First Four. UCLA this year has made that exact same run.</p>
+<p>Teams like VCU and UCLA have had incredible runs in March. Back in 2011, VCU made it all the way to the Final Four as an 11 seed. UCLA this year has made that exact same run as an 11 seed as well.</p>
+<p>But what do these two teams have in common. Both were a team that had to play in the First Four, which are the lowest at-large teams facing off against each other. There are a total of four of the lowest at-large teams each year. The First Four started in 2011, in which two 11 seeded match ups, and two 16 seeded match ups, making it a total of four games. Only two of these First Four teams have made it past the Sweet 16. They are the 2011 VCU Rams and the 2021 UCLA Bruins.</p>
 <pre class="r"><code>library(tidyverse)</code></pre>
 <pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
 <pre><code>## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
@@ -86,6 +87,16 @@
 <pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>library(ggrepel)
+library(scales)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;scales&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     discard</code></pre>
+<pre><code>## The following object is masked from &#39;package:readr&#39;:
+## 
+##     col_factor</code></pre>
 <pre class="r"><code>vcuyear &lt;- read_csv(&quot;~/Desktop/SPMC_350_Spring_2021/2021_spring_sports_data_analysis/data/2010_2011_teamstats.csv&quot;)</code></pre>
 <pre><code>## 
 ## ── Column specification ────────────────────────────────────────────────────────
@@ -117,6 +128,11 @@
 <pre class="r"><code>vcuyear &lt;- vcuyear %&gt;% separate(School, into=c(&quot;School&quot;, &quot;Tournament&quot;), sep=&quot; NCAA&quot;)</code></pre>
 <pre><code>## Warning: Expected 2 pieces. Missing pieces filled with `NA` in 277 rows [1, 3,
 ## 6, 7, 8, 9, 10, 11, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 25, 26, ...].</code></pre>
+<pre class="r"><code>vcu &lt;- vcuyear %&gt;% 
+  filter(School == &quot;Virginia Commonwealth&quot;)
+
+ucla &lt;- thisyear %&gt;% 
+  filter(School == &quot;UCLA&quot;)</code></pre>
 <pre class="r"><code>thisyear &lt;- thisyear %&gt;%
   mutate(AssistTurnoverRatio = (AST)/TOV) %&gt;% 
   mutate(PointsPG = (`Total Points`)/G) %&gt;%
@@ -135,6 +151,54 @@
   mutate(OppPointsPG = (`Opponent Points`)/G) %&gt;%
   mutate(Margin = PointsPG - OppPointsPG) %&gt;%
   mutate(`3PointersAttemptedPG` = (`3PA`)/G)</code></pre>
+<pre class="r"><code>ucla &lt;- ucla %&gt;%
+  mutate(AssistTurnoverRatio = (AST)/TOV) %&gt;% 
+  mutate(PointsPG = (`Total Points`)/G) %&gt;%
+  mutate(OppPointsPG = (`Opponent Points`)/G) %&gt;%
+  mutate(Margin = PointsPG - OppPointsPG) %&gt;% 
+  mutate(`3PointersAttemptedPG` = (`3PA`)/G)</code></pre>
+<pre class="r"><code>vcu &lt;- vcu %&gt;%
+  mutate(AssistTurnoverRatio = (AST)/TOV) %&gt;% 
+  mutate(PointsPG = (`Total Points`)/G) %&gt;%
+  mutate(OppPointsPG = (`Opponent Points`)/G) %&gt;%
+  mutate(Margin = PointsPG - OppPointsPG) %&gt;% 
+  mutate(`3PointersAttemptedPG` = (`3PA`)/G)</code></pre>
+<pre class="r"><code>ggplot(thisyear, aes(x=AssistTurnoverRatio, y=Margin)) + 
+  geom_point() + 
+  geom_point(data = thisyear, aes(x=AssistTurnoverRatio, y=Margin), color = &quot;Gray&quot;) + 
+  geom_point(data = ucla, aes(x=AssistTurnoverRatio, y=Margin), color = &quot;Blue&quot;) + 
+  labs(title= &quot;UCLA compared to every NCAA team in 2021&quot;, subtitle = &quot;UCLA toward the middle of the nation&quot;, x = &quot;Assist to Turnover Ratio in 2021 Season&quot;, y = &quot;Average margin of victory&quot;, caption = &quot;Source: Sports-Reference.com | By Peyton Kort&quot;) + 
+  theme_minimal() + 
+  theme(
+    plot.title = element_text(size = 16, face = &quot;bold&quot;),
+    axis.title = element_text(size = 12), 
+    plot.subtitle = element_text(size=10), 
+    panel.grid.minor = element_blank()
+    ) + 
+   geom_text_repel(
+    data=ucla, 
+    aes(x=AssistTurnoverRatio, y=Margin, label=School)
+  )</code></pre>
+<pre><code>## Warning: Removed 8 rows containing missing values (geom_point).
+
+## Warning: Removed 8 rows containing missing values (geom_point).</code></pre>
+<p><img src="/2021/04/02/can-you-predict-a-cinderella-team/index_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<pre class="r"><code>ggplot(vcuyear, aes(x=AssistTurnoverRatio, y=Margin)) + 
+  geom_point() + 
+  geom_point(data = vcuyear, aes(x=AssistTurnoverRatio, y=Margin), color = &quot;Gray&quot;) + 
+  geom_point(data = vcu, aes(x=AssistTurnoverRatio, y=Margin), color = &quot;Black&quot;) + 
+  labs(title = &quot;VCU compared to every NCAA team in 2011&quot;, subtitle = &quot;VCU more toward the top than UCLA was&quot;, x = &quot;Assist to Turnover Ratio in 2011 Season&quot;, y = &quot;Average margin of victory&quot;, caption = &quot;Source: Sports-Reference.com | By Peyton Kort&quot;) + 
+  theme_minimal() + 
+  geom_text_repel(
+    data=vcu, 
+    aes(x=AssistTurnoverRatio, y=Margin, label=School)) + 
+  theme(
+    plot.title = element_text(size = 16, face = &quot;bold&quot;),
+    axis.title = element_text(size = 12), 
+    plot.subtitle = element_text(size=10), 
+    panel.grid.minor = element_blank()
+    )</code></pre>
+<p><img src="/2021/04/02/can-you-predict-a-cinderella-team/index_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 
     </div>
   </article>
