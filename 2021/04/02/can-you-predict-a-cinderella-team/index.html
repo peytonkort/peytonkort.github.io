@@ -62,7 +62,7 @@
 
   <article class="article">
     
-    <span class="article-duration">4 min read</span>
+    <span class="article-duration">9 min read</span>
     
 
     <h1 class="article-title">Can you predict a Cinderella team?</h1>
@@ -74,14 +74,17 @@
     <div class="article-content">
       
 <script src="/2021/04/02/can-you-predict-a-cinderella-team/index_files/header-attrs/header-attrs.js"></script>
+<script src="/2021/04/02/can-you-predict-a-cinderella-team/index_files/kePrint/kePrint.js"></script>
+<link href="/2021/04/02/can-you-predict-a-cinderella-team/index_files/lightable/lightable.css" rel="stylesheet" />
 
 
 <p>Teams like VCU and UCLA have had incredible runs in March. Back in 2011, VCU made it all the way to the Final Four as an 11 seed. UCLA this year has made that exact same run as an 11 seed as well.</p>
 <p>But what do these two teams have in common. Both were a team that had to play in the First Four, which are the lowest at-large teams facing off against each other. There are a total of four of the lowest at-large teams each year. The First Four started in 2011, in which two 11 seeded match ups, and two 16 seeded match ups, making it a total of four games. Only two of these First Four teams have made it past the Sweet 16. They are the 2011 VCU Rams and the 2021 UCLA Bruins.</p>
+<p>Let’s compare these two teams stats throughout the seasons of there historic runs.</p>
 <pre class="r"><code>library(tidyverse)</code></pre>
 <pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
 <pre><code>## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
-## ✓ tibble  3.0.5     ✓ dplyr   1.0.4
+## ✓ tibble  3.0.5     ✓ dplyr   1.0.5
 ## ✓ tidyr   1.1.2     ✓ stringr 1.4.0
 ## ✓ readr   1.4.0     ✓ forcats 0.5.1</code></pre>
 <pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
@@ -97,6 +100,21 @@ library(scales)</code></pre>
 <pre><code>## The following object is masked from &#39;package:readr&#39;:
 ## 
 ##     col_factor</code></pre>
+<pre class="r"><code>library(kableExtra)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;kableExtra&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     group_rows</code></pre>
+<pre class="r"><code>library(formattable)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;formattable&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:scales&#39;:
+## 
+##     comma, percent, scientific</code></pre>
+<pre class="r"><code>library(readr)
+library(dplyr)</code></pre>
+<p>The statistics I am working with are from the 2010/2011 NCAA College Basketball season and 2020/2021 NCAA College Basketball season. All this data is from Sports Reference. Also I made my own data set from Google Sheets that just has VCU and UCLA on it.</p>
 <pre class="r"><code>vcuyear &lt;- read_csv(&quot;~/Desktop/SPMC_350_Spring_2021/2021_spring_sports_data_analysis/data/2010_2011_teamstats.csv&quot;)</code></pre>
 <pre><code>## 
 ## ── Column specification ────────────────────────────────────────────────────────
@@ -122,17 +140,61 @@ library(scales)</code></pre>
 ##   School = col_character()
 ## )
 ## ℹ Use `spec()` for the full column specifications.</code></pre>
-<pre class="r"><code>thisyear &lt;- thisyear %&gt;% separate(School, into=c(&quot;School&quot;, &quot;Tournament&quot;), sep=&quot; NCAA&quot;)</code></pre>
+<p>What I want to figure out is whether I could predict a Cinderella Team (like VCU and UCLA) based off stats. So I decided to compare each teams stats.</p>
+<pre class="r"><code>thisyear %&gt;%
+  separate(School, into=c(&quot;School&quot;, &quot;Tournament&quot;), sep=&quot;NCAA&quot;) %&gt;%
+  arrange(Rk)</code></pre>
 <pre><code>## Warning: Expected 2 pieces. Missing pieces filled with `NA` in 287 rows [2, 3,
 ## 4, 5, 6, 8, 9, 10, 12, 13, 14, 15, 16, 18, 19, 20, 21, 23, 24, 25, ...].</code></pre>
-<pre class="r"><code>vcuyear &lt;- vcuyear %&gt;% separate(School, into=c(&quot;School&quot;, &quot;Tournament&quot;), sep=&quot; NCAA&quot;)</code></pre>
+<pre><code>## # A tibble: 355 x 34
+##       Rk School Tournament     G     W     L `W-L%`    SRS    SOS `Conference W`
+##    &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;          &lt;dbl&gt;
+##  1     1 &quot;Abil… &quot;&quot;            29    24     5  0.828   6.24  -6.4              13
+##  2     2 &quot;Air …  &lt;NA&gt;         25     5    20  0.2   -12.9    0.27              3
+##  3     3 &quot;Akro…  &lt;NA&gt;         23    15     8  0.652   1.86  -1.95             12
+##  4     4 &quot;Alab…  &lt;NA&gt;         15     6     9  0.4   -18.9  -15.0               4
+##  5     5 &quot;Alab…  &lt;NA&gt;         29    22     7  0.759   5.81  -3.82             13
+##  6     6 &quot;Alab…  &lt;NA&gt;         18     4    14  0.222 -24.3  -17.0               4
+##  7     7 &quot;Alab… &quot;&quot;            33    26     7  0.788  19.6    9.99             16
+##  8     8 &quot;Alba…  &lt;NA&gt;         16     7     9  0.438  -4.55  -5.24              6
+##  9     9 &quot;Alco…  &lt;NA&gt;         19     6    13  0.316 -19.6  -10.1               6
+## 10    10 &quot;Amer…  &lt;NA&gt;         10     4     6  0.4    -6.32  -1.82              4
+## # … with 345 more rows, and 24 more variables: `Conference L` &lt;dbl&gt;, `Home
+## #   W` &lt;dbl&gt;, `Home L` &lt;dbl&gt;, `Away W` &lt;dbl&gt;, `Away L` &lt;dbl&gt;, `Total
+## #   Points` &lt;dbl&gt;, `Opponent Points` &lt;dbl&gt;, MP &lt;dbl&gt;, FG &lt;dbl&gt;, FGA &lt;dbl&gt;,
+## #   `FG%` &lt;dbl&gt;, `3P` &lt;dbl&gt;, `3PA` &lt;dbl&gt;, `3P%` &lt;dbl&gt;, FT &lt;dbl&gt;, FTA &lt;dbl&gt;,
+## #   `FT%` &lt;dbl&gt;, ORB &lt;dbl&gt;, TRB &lt;dbl&gt;, AST &lt;dbl&gt;, STL &lt;dbl&gt;, BLK &lt;dbl&gt;,
+## #   TOV &lt;dbl&gt;, PF &lt;dbl&gt;</code></pre>
+<pre class="r"><code>vcuyear %&gt;%
+  separate(School, into=c(&quot;School&quot;, &quot;Tournament&quot;), sep=&quot;NCAA&quot;) %&gt;%
+  arrange(Rk)</code></pre>
 <pre><code>## Warning: Expected 2 pieces. Missing pieces filled with `NA` in 277 rows [1, 3,
 ## 6, 7, 8, 9, 10, 11, 14, 15, 16, 17, 18, 19, 20, 21, 23, 24, 25, 26, ...].</code></pre>
+<pre><code>## # A tibble: 345 x 34
+##       Rk School Tournament     G     W     L `W-L%`    SRS    SOS `Conference W`
+##    &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;          &lt;dbl&gt;
+##  1     1 &quot;Air …  &lt;NA&gt;         32    16    16  0.5     2.71   3.31              6
+##  2     2 &quot;Akro… &quot;&quot;            36    23    13  0.639   2.15  -1.02              9
+##  3     3 &quot;Alab…  &lt;NA&gt;         28    13    15  0.464 -15.2  -11.8              10
+##  4     4 &quot;Alab… &quot;&quot;            31    22     9  0.71    8.55   2.78             12
+##  5     5 &quot;Alab… &quot;&quot;            35    17    18  0.486 -13.4  -10.3              11
+##  6     6 &quot;Alab…  &lt;NA&gt;         37    25    12  0.676  11.7    4.27             12
+##  7     7 &quot;Alba…  &lt;NA&gt;         32    16    16  0.5    -7.05  -5.96              9
+##  8     8 &quot;Alco…  &lt;NA&gt;         28     4    24  0.143 -23.0   -8.02              4
+##  9     9 &quot;Amer…  &lt;NA&gt;         31    22     9  0.71   -3.13  -5.64             11
+## 10    10 &quot;Appa…  &lt;NA&gt;         31    16    15  0.516  -4.81  -2.95             10
+## # … with 335 more rows, and 24 more variables: `Conference L` &lt;dbl&gt;, `Home
+## #   W` &lt;dbl&gt;, `Home L` &lt;dbl&gt;, `Away W` &lt;dbl&gt;, `Away L` &lt;dbl&gt;, `Total
+## #   Points` &lt;dbl&gt;, `Opponent Points` &lt;dbl&gt;, MP &lt;dbl&gt;, FG &lt;dbl&gt;, FGA &lt;dbl&gt;,
+## #   `FG%` &lt;dbl&gt;, `3P` &lt;dbl&gt;, `3PA` &lt;dbl&gt;, `3P%` &lt;dbl&gt;, FT &lt;dbl&gt;, FTA &lt;dbl&gt;,
+## #   `FT%` &lt;dbl&gt;, ORB &lt;dbl&gt;, TRB &lt;dbl&gt;, AST &lt;dbl&gt;, STL &lt;dbl&gt;, BLK &lt;dbl&gt;,
+## #   TOV &lt;dbl&gt;, PF &lt;dbl&gt;</code></pre>
 <pre class="r"><code>vcu &lt;- vcuyear %&gt;% 
   filter(School == &quot;Virginia Commonwealth&quot;)
 
-ucla &lt;- thisyear %&gt;% 
+ucla &lt;- thisyear %&gt;%
   filter(School == &quot;UCLA&quot;)</code></pre>
+<p>Then these next few codes I mutated some new rows. I added 5 new rows for 2020/2021 and 2010/2011 data set. Then I added 15 new data sets for my data of just VCU and UCLA.</p>
 <pre class="r"><code>thisyear &lt;- thisyear %&gt;%
   mutate(AssistTurnoverRatio = (AST)/TOV) %&gt;% 
   mutate(PointsPG = (`Total Points`)/G) %&gt;%
@@ -149,8 +211,18 @@ ucla &lt;- thisyear %&gt;%
   mutate(AssistTurnoverRatio = (AST)/TOV) %&gt;% 
   mutate(PointsPG = (`Total Points`)/G) %&gt;%
   mutate(OppPointsPG = (`Opponent Points`)/G) %&gt;%
-  mutate(Margin = PointsPG - OppPointsPG) %&gt;%
-  mutate(`3PointersAttemptedPG` = (`3PA`)/G)</code></pre>
+  mutate(Margin = PointsPG - OppPointsPG) %&gt;% 
+  mutate(`3PointersAttemptedPG` = (`3PA`)/G) %&gt;%
+  mutate(FTPG  = (FT)/G) %&gt;%
+  mutate(FTAPG = (FTA)/G) %&gt;%
+  mutate(ORBPG = (ORB)/G) %&gt;%
+  mutate(TRBPG = (TRB)/G) %&gt;%
+  mutate(ASTPG = (AST)/G) %&gt;%
+  mutate(STLPG = (STL)/G) %&gt;%
+  mutate(BLKPG = (BLK)/G) %&gt;%
+  mutate(TOVPG = (TOV)/G) %&gt;%
+  mutate(PFPG = (PF)/G) %&gt;%
+  mutate(`3PointerMadePG` = (`3P`)/G)</code></pre>
 <pre class="r"><code>ucla &lt;- ucla %&gt;%
   mutate(AssistTurnoverRatio = (AST)/TOV) %&gt;% 
   mutate(PointsPG = (`Total Points`)/G) %&gt;%
@@ -163,6 +235,7 @@ ucla &lt;- thisyear %&gt;%
   mutate(OppPointsPG = (`Opponent Points`)/G) %&gt;%
   mutate(Margin = PointsPG - OppPointsPG) %&gt;% 
   mutate(`3PointersAttemptedPG` = (`3PA`)/G)</code></pre>
+<p>Looking at UCLA and VCU stats throughout each of there seasons, they had a lot of similarities. But they were no where near the top of the nation in any given stat. Two stats they were very similar in was average margin of victory (4.8 and 5.2) and assist to turnover ratio (1.29 and 1.28).</p>
 <pre class="r"><code>ggplot(thisyear, aes(x=AssistTurnoverRatio, y=Margin)) + 
   geom_point() + 
   geom_point(data = thisyear, aes(x=AssistTurnoverRatio, y=Margin), color = &quot;Gray&quot;) + 
@@ -199,6 +272,318 @@ ucla &lt;- thisyear %&gt;%
     panel.grid.minor = element_blank()
     )</code></pre>
 <p><img src="/2021/04/02/can-you-predict-a-cinderella-team/index_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<p>Both VCU and UCLA was around in the middle of the nation in the scatter plot. They were above average in each category. VCU was more near the top then UCLA was. Could these two stats play a factor on the success of a big Tournament run?</p>
+<pre class="r"><code>vcuwithucla &lt;- uclawithvcu %&gt;%
+  select(Year, School, G, W, L, `W-L%`, SRS, SOS, `Conference W`, `Conference L`, `Home W`, `Home L`, `Away W`, `Away L`, PointsPG, OppPointsPG, Margin, `FG%`, `3PointerMadePG`, `3PointersAttemptedPG`, `3P%`, FTPG, FTAPG, `FT%`, TRBPG, ORBPG, ASTPG, STLPG, BLKPG, TOVPG, PFPG, AssistTurnoverRatio)</code></pre>
+<pre class="r"><code>tablemajor &lt;- vcuwithucla %&gt;%
+  ungroup()</code></pre>
+<p>Finally I set up the VCU and UCLA data into a table chart. This table chart does a great job of showing every stat for UCLA and VCU. You can see what they have in common and what they don’t.</p>
+<pre class="r"><code>tablemajor %&gt;% kable() %&gt;%
+  kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;condensed&quot;)) %&gt;% 
+  row_spec(1, bold = T, color = &quot;white&quot;, background = &quot;Black&quot;) %&gt;%
+  row_spec(2, bold = T, color = &quot;white&quot;, background = &quot;Blue&quot;) %&gt;%
+  column_spec(2, bold=T)</code></pre>
+<table class="table table-striped table-condensed" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Year
+</th>
+<th style="text-align:left;">
+School
+</th>
+<th style="text-align:right;">
+G
+</th>
+<th style="text-align:right;">
+W
+</th>
+<th style="text-align:right;">
+L
+</th>
+<th style="text-align:right;">
+W-L%
+</th>
+<th style="text-align:right;">
+SRS
+</th>
+<th style="text-align:right;">
+SOS
+</th>
+<th style="text-align:right;">
+Conference W
+</th>
+<th style="text-align:right;">
+Conference L
+</th>
+<th style="text-align:right;">
+Home W
+</th>
+<th style="text-align:right;">
+Home L
+</th>
+<th style="text-align:right;">
+Away W
+</th>
+<th style="text-align:right;">
+Away L
+</th>
+<th style="text-align:right;">
+PointsPG
+</th>
+<th style="text-align:right;">
+OppPointsPG
+</th>
+<th style="text-align:right;">
+Margin
+</th>
+<th style="text-align:right;">
+FG%
+</th>
+<th style="text-align:right;">
+3PointerMadePG
+</th>
+<th style="text-align:right;">
+3PointersAttemptedPG
+</th>
+<th style="text-align:right;">
+3P%
+</th>
+<th style="text-align:right;">
+FTPG
+</th>
+<th style="text-align:right;">
+FTAPG
+</th>
+<th style="text-align:right;">
+FT%
+</th>
+<th style="text-align:right;">
+TRBPG
+</th>
+<th style="text-align:right;">
+ORBPG
+</th>
+<th style="text-align:right;">
+ASTPG
+</th>
+<th style="text-align:right;">
+STLPG
+</th>
+<th style="text-align:right;">
+BLKPG
+</th>
+<th style="text-align:right;">
+TOVPG
+</th>
+<th style="text-align:right;">
+PFPG
+</th>
+<th style="text-align:right;">
+AssistTurnoverRatio
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: Black !important;">
+2010/2011
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: Black !important;font-weight: bold;">
+VCU
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Black !important;">
+40
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Black !important;">
+28
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Black !important;">
+12
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Black !important;">
+0.70
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Black !important;">
+8.56
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Black !important;">
+3.78
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Black !important;">
+12
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Black !important;">
+6
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Black !important;">
+11
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Black !important;">
+3
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Black !important;">
+8
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Black !important;">
+6
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Black !important;">
+71.60000
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Black !important;">
+66.82500
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Black !important;">
+4.775000
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Black !important;">
+0.434
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Black !important;">
+8.475000
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Black !important;">
+22.92500
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Black !important;">
+0.370
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Black !important;">
+14.72500
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Black !important;">
+20.60000
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Black !important;">
+0.715
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Black !important;">
+32.3
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Black !important;">
+10.70000
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Black !important;">
+14.57500
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Black !important;">
+8.200000
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Black !important;">
+3.50000
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Black !important;">
+11.30000
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Black !important;">
+18.37500
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Black !important;">
+1.289823
+</td>
+</tr>
+<tr>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: Blue !important;">
+2020/2021
+</td>
+<td style="text-align:left;font-weight: bold;color: white !important;background-color: Blue !important;font-weight: bold;">
+UCLA
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Blue !important;">
+31
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Blue !important;">
+22
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Blue !important;">
+9
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Blue !important;">
+0.71
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Blue !important;">
+16.07
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Blue !important;">
+10.85
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Blue !important;">
+13
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Blue !important;">
+6
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Blue !important;">
+11
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Blue !important;">
+1
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Blue !important;">
+5
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Blue !important;">
+6
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Blue !important;">
+72.87097
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Blue !important;">
+67.64516
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Blue !important;">
+5.225807
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Blue !important;">
+0.458
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Blue !important;">
+6.774193
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Blue !important;">
+18.35484
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Blue !important;">
+0.369
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Blue !important;">
+13.06452
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Blue !important;">
+18.22581
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Blue !important;">
+0.717
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Blue !important;">
+35.0
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Blue !important;">
+9.83871
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Blue !important;">
+13.41935
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Blue !important;">
+4.967742
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Blue !important;">
+2.83871
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Blue !important;">
+10.51613
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Blue !important;">
+16.06452
+</td>
+<td style="text-align:right;font-weight: bold;color: white !important;background-color: Blue !important;">
+1.276074
+</td>
+</tr>
+</tbody>
+</table>
+<p>Everyone wants to think there is some secret formula to predict a Cinderella run in the NCAA Tournament. But sadly, there is no secret. It takes a special team to make a run like this. You never know when a Cinderella run like VCU in 2011, or UCLA this past year, but when it happens you just gotta appreciate it!</p>
 
     </div>
   </article>
