@@ -112,8 +112,7 @@ library(scales)</code></pre>
 <pre><code>## The following objects are masked from &#39;package:scales&#39;:
 ## 
 ##     comma, percent, scientific</code></pre>
-<pre class="r"><code>library(readr)
-library(dplyr)</code></pre>
+<pre class="r"><code>library(readr)</code></pre>
 <p>The statistics I am working with are from the 2010/2011 NCAA College Basketball season and 2020/2021 NCAA College Basketball season. All this data is from Sports Reference. Also I made my own data set from Google Sheets that just has VCU’s 2010/2011 season and UCLA in the 2020/2021 season.</p>
 <pre class="r"><code>vcuyear &lt;- read_csv(&quot;~/Desktop/SPMC_350_Spring_2021/2021_spring_sports_data_analysis/data/2010_2011_teamstats.csv&quot;)</code></pre>
 <pre><code>## 
@@ -202,7 +201,7 @@ ucla &lt;- thisyear %&gt;%
   pivot_longer(cols = G:AssistTurnoverRatio, names_to = &quot;Statistic&quot;, values_to = &quot;Result&quot;) %&gt;% 
  select(-Year) %&gt;% 
   pivot_wider(names_from = School, values_from = Result)</code></pre>
-<p>I set up the VCU and UCLA data into a table chart. This table chart does a great job of showing every stat for UCLA and VCU. You can see what they have in common and what they don’t.</p>
+<p>I set up the VCU and UCLA data into a table chart. This table chart does a great job of showing every stat for UCLA and VCU. You can see what they have in common and what they don’t. I also color coordinate each team with there main color.</p>
 <pre class="r"><code>tablemajor &lt;- vcuwithucla %&gt;%
   ungroup()</code></pre>
 <pre class="r"><code>tablemajor %&gt;% kable() %&gt;%
