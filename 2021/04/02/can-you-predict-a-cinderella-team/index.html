@@ -62,7 +62,7 @@
 
   <article class="article">
     
-    <span class="article-duration">7 min read</span>
+    <span class="article-duration">8 min read</span>
     
 
     <h1 class="article-title">Can you predict a Cinderella team?</h1>
@@ -78,8 +78,8 @@
 <link href="/2021/04/02/can-you-predict-a-cinderella-team/index_files/lightable/lightable.css" rel="stylesheet" />
 
 
-<p>Teams like VCU and UCLA have had incredible runs in March. Back in 2011, VCU made it all the way to the Final Four as an 11 seed. UCLA this year has made that exact same run as an 11 seed as well.</p>
-<p>But what do these two teams have in common. Both were a team that had to play in the First Four, which are the lowest at-large teams facing off against each other. There are a total of four of the lowest at-large teams each year. The First Four started in 2011, in which two 11 seeded match ups, and two 16 seeded match ups, making it a total of four games. Only two of these First Four teams have made it past the Sweet 16. They are the 2011 VCU Rams and the 2021 UCLA Bruins.</p>
+<p>Teams like VCU and UCLA have had incredible runs in March. Back in 2011, VCU made it all the way to the Final Four as an 11 seed. UCLA has made that exact same run as an 11 seed this year.</p>
+<p>But what do these two teams have in common. Both were teams that had to play in the First Four, which are the lowest at-large teams facing off against each other. There are a total of four of the lowest at-large teams each year. The First Four started in 2011, in which two 11 seeded teams match up, and two 16 seeded teams match up (making it a total of four games). Only two of these First Four teams have made it past the Sweet 16. They are the 2011 VCU Rams and the 2021 UCLA Bruins.</p>
 <p>Let’s compare these two teams stats throughout the seasons of there historic runs.</p>
 <pre class="r"><code>library(tidyverse)</code></pre>
 <pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
@@ -114,7 +114,7 @@ library(scales)</code></pre>
 ##     comma, percent, scientific</code></pre>
 <pre class="r"><code>library(readr)
 library(dplyr)</code></pre>
-<p>The statistics I am working with are from the 2010/2011 NCAA College Basketball season and 2020/2021 NCAA College Basketball season. All this data is from Sports Reference. Also I made my own data set from Google Sheets that just has VCU and UCLA on it.</p>
+<p>The statistics I am working with are from the 2010/2011 NCAA College Basketball season and 2020/2021 NCAA College Basketball season. All this data is from Sports Reference. Also I made my own data set from Google Sheets that just has VCU’s 2010/2011 season and UCLA in the 2020/2021 season.</p>
 <pre class="r"><code>vcuyear &lt;- read_csv(&quot;~/Desktop/SPMC_350_Spring_2021/2021_spring_sports_data_analysis/data/2010_2011_teamstats.csv&quot;)</code></pre>
 <pre><code>## 
 ## ── Column specification ────────────────────────────────────────────────────────
@@ -140,7 +140,7 @@ library(dplyr)</code></pre>
 ##   School = col_character()
 ## )
 ## ℹ Use `spec()` for the full column specifications.</code></pre>
-<p>What I want to figure out is whether I could predict a Cinderella Team (like VCU and UCLA) based off stats. So I decided to compare each teams stats.</p>
+<p>What I want to figure out is whether I could predict a Cinderella Team solely based off stats. There have only been four teams that are 11 seeded or lower to make it to the Final Four (2006 George Mason, 2011 VCU, 2018 Loyola, 2021 UCLA). I decided to choose VCU and UCLA to compare stats because they were both in the First Four and it’s so crazy that a team that barely even made it in the NCAA Tournament got all the way to the Final Four. So let’s compare the stats.</p>
 <pre class="r"><code>thisyear &lt;- thisyear %&gt;%
   separate(School, into=c(&quot;School&quot;, &quot;Tournament&quot;), sep=&quot;NCAA&quot;) %&gt;%
   arrange(Rk)</code></pre>
@@ -156,7 +156,7 @@ library(dplyr)</code></pre>
 
 ucla &lt;- thisyear %&gt;%
   filter(Rk == &quot;325&quot;)</code></pre>
-<p>Then these next few codes I mutated some new rows. I added 5 new rows for 2020/2021 and 2010/2011 data set. Then I added 15 new data sets for my data of just VCU and UCLA.</p>
+<p>For these next few codes I mutated some new rows. I added 5 new rows for 2020/2021 and 2010/2011 data set. Then I added 15 new rows of data for my data of just VCU and UCLA. The rows I added were stats like points per game, opponent points per game, margin of victory, assist to turnover ratio, 3 pointers attempted per game, 3 pointers made per game, all stats I think that are important to helping a team win.</p>
 <pre class="r"><code>thisyear &lt;- thisyear %&gt;%
   mutate(AssistTurnoverRatio = (AST)/TOV) %&gt;% 
   mutate(PointsPG = (`Total Points`)/G) %&gt;%
@@ -168,6 +168,18 @@ ucla &lt;- thisyear %&gt;%
   mutate(PointsPG = (`Total Points`)/G) %&gt;%
   mutate(OppPointsPG = (`Opponent Points`)/G) %&gt;%
   mutate(Margin = PointsPG - OppPointsPG) %&gt;%
+  mutate(`3PointersAttemptedPG` = (`3PA`)/G)</code></pre>
+<pre class="r"><code>ucla &lt;- ucla %&gt;%
+  mutate(AssistTurnoverRatio = (AST)/TOV) %&gt;% 
+  mutate(PointsPG = (`Total Points`)/G) %&gt;%
+  mutate(OppPointsPG = (`Opponent Points`)/G) %&gt;%
+  mutate(Margin = PointsPG - OppPointsPG) %&gt;% 
+  mutate(`3PointersAttemptedPG` = (`3PA`)/G)</code></pre>
+<pre class="r"><code>vcu &lt;- vcu %&gt;%
+  mutate(AssistTurnoverRatio = (AST)/TOV) %&gt;% 
+  mutate(PointsPG = (`Total Points`)/G) %&gt;%
+  mutate(OppPointsPG = (`Opponent Points`)/G) %&gt;%
+  mutate(Margin = PointsPG - OppPointsPG) %&gt;% 
   mutate(`3PointersAttemptedPG` = (`3PA`)/G)</code></pre>
 <pre class="r"><code>uclawithvcu &lt;- uclawithvcu %&gt;%
   mutate(AssistTurnoverRatio = (AST)/TOV) %&gt;% 
@@ -185,26 +197,14 @@ ucla &lt;- thisyear %&gt;%
   mutate(TOVPG = (TOV)/G) %&gt;%
   mutate(PFPG = (PF)/G) %&gt;%
   mutate(`3PointerMadePG` = (`3P`)/G)</code></pre>
-<pre class="r"><code>ucla &lt;- ucla %&gt;%
-  mutate(AssistTurnoverRatio = (AST)/TOV) %&gt;% 
-  mutate(PointsPG = (`Total Points`)/G) %&gt;%
-  mutate(OppPointsPG = (`Opponent Points`)/G) %&gt;%
-  mutate(Margin = PointsPG - OppPointsPG) %&gt;% 
-  mutate(`3PointersAttemptedPG` = (`3PA`)/G)</code></pre>
-<pre class="r"><code>vcu &lt;- vcu %&gt;%
-  mutate(AssistTurnoverRatio = (AST)/TOV) %&gt;% 
-  mutate(PointsPG = (`Total Points`)/G) %&gt;%
-  mutate(OppPointsPG = (`Opponent Points`)/G) %&gt;%
-  mutate(Margin = PointsPG - OppPointsPG) %&gt;% 
-  mutate(`3PointersAttemptedPG` = (`3PA`)/G)</code></pre>
 <pre class="r"><code>vcuwithucla &lt;- uclawithvcu %&gt;%
   select(Year, School, G, W, L, `W-L%`, SRS, SOS, `Conference W`, `Conference L`, `Home W`, `Home L`, `Away W`, `Away L`, PointsPG, OppPointsPG, Margin, `FG%`, `3PointerMadePG`, `3PointersAttemptedPG`, `3P%`, FTPG, FTAPG, `FT%`, TRBPG, ORBPG, ASTPG, STLPG, BLKPG, TOVPG, PFPG, AssistTurnoverRatio) %&gt;% 
   pivot_longer(cols = G:AssistTurnoverRatio, names_to = &quot;Statistic&quot;, values_to = &quot;Result&quot;) %&gt;% 
  select(-Year) %&gt;% 
   pivot_wider(names_from = School, values_from = Result)</code></pre>
+<p>I set up the VCU and UCLA data into a table chart. This table chart does a great job of showing every stat for UCLA and VCU. You can see what they have in common and what they don’t.</p>
 <pre class="r"><code>tablemajor &lt;- vcuwithucla %&gt;%
   ungroup()</code></pre>
-<p>Finally I set up the VCU and UCLA data into a table chart. This table chart does a great job of showing every stat for UCLA and VCU. You can see what they have in common and what they don’t.</p>
 <pre class="r"><code>tablemajor %&gt;% kable() %&gt;%
   kable_styling(bootstrap_options = c(&quot;striped&quot;, &quot;condensed&quot;)) %&gt;% 
   column_spec(2, bold = T, color = &quot;white&quot;, background = &quot;Black&quot;) %&gt;%
@@ -556,8 +556,8 @@ AssistTurnoverRatio
 </tr>
 </tbody>
 </table>
-<p>You can see that UCLA had a way tougher schedule than VCU, due to the tougher conference that UCLA plays in. This would also make there SRS way higher than VCU’s. You can also see that the conference records for both teams were very similar.</p>
-<p>Also VCU and UCLA had very similar Points Per Game and Opponent Points Per Game, which made the margin also very similar. There free throw percentages were nearly the exact same at 71.5% and 71.7%. Lastly the assist to turnover ratio was also nearly spot on at 1.289 for VCU and 1.276 for UCLA.</p>
+<p>As you can see, UCLA had a way tougher schedule than VCU, due to the tougher conference that UCLA plays in (Pac 12 vs. A-10). This would also make there SRS way higher than VCU’s. You can also see that the conference records for both teams were very similar.</p>
+<p>VCU and UCLA had very similar points per game and opponent points per game, which made the margin also very similar. There free throw percentages were nearly the exact same at 71.5% and 71.7%. Lastly the assist to turnover ratio was also nearly spot on at 1.289 for VCU and 1.276 for UCLA.</p>
 <p>Neither VCU nor UCLA were any where near the top of the nation in any given stat. Two stats that were the most similar was the average margin of victory (4.8 and 5.2) and assist to turnover ratio (1.289 and 1.276). So I decided to make a scatter plot comparing them to the nation in those two stats.</p>
 <pre class="r"><code>ggplot(thisyear, aes(x=AssistTurnoverRatio, y=Margin)) + 
   geom_point() + 
@@ -593,7 +593,7 @@ AssistTurnoverRatio
     axis.title = element_text(size = 12), 
     plot.subtitle = element_text(size=10), 
     panel.grid.minor = element_blank()
-    )</code></pre>
+  )</code></pre>
 <p><img src="/2021/04/02/can-you-predict-a-cinderella-team/index_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
 <p>Both VCU and UCLA were around the middle of the nation in the scatter plot. They were however above average in each category. VCU was a little more near the top then UCLA was.</p>
 <p>Everyone wants to think there is some secret formula to predict a Cinderella run in the NCAA Tournament. But sadly, there is no secret. It takes a special team to make a run like this. You never know when a Cinderella run like VCU in 2011, or UCLA this past year, but when it happens you just gotta appreciate it!</p>

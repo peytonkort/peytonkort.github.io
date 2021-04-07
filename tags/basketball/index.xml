@@ -6,15 +6,15 @@
     <description>Recent content in Basketball on Peyton Kort Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 23 Mar 2021 00:00:00 +0000</lastBuildDate><atom:link href="/tags/basketball/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 02 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="/tags/basketball/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>My NCAA Bracket</title>
-      <link>/2021/03/23/my-ncaa-bracket/</link>
-      <pubDate>Tue, 23 Mar 2021 00:00:00 +0000</pubDate>
+      <title>Can you predict a Cinderella team?</title>
+      <link>/2021/04/02/can-you-predict-a-cinderella-team/</link>
+      <pubDate>Fri, 02 Apr 2021 00:00:00 +0000</pubDate>
       
-      <guid>/2021/03/23/my-ncaa-bracket/</guid>
-      <description>  Bracket Analysis Second Header Third Level My bracket is a dumpster fire. Here’s why.
-library(tidyverse) ## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ── ## ✓ ggplot2 3.3.3 ✓ purrr 0.3.4 ## ✓ tibble 3.0.5 ✓ dplyr 1.0.4 ## ✓ tidyr 1.1.2 ✓ stringr 1.4.0 ## ✓ readr 1.4.0 ✓ forcats 0.5.1 ## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ── ## x dplyr::filter() masks stats::filter() ## x dplyr::lag() masks stats::lag()    </description>
+      <guid>/2021/04/02/can-you-predict-a-cinderella-team/</guid>
+      <description>Teams like VCU and UCLA have had incredible runs in March. Back in 2011, VCU made it all the way to the Final Four as an 11 seed. UCLA has made that exact same run as an 11 seed this year.
+But what do these two teams have in common. Both were teams that had to play in the First Four, which are the lowest at-large teams facing off against each other.</description>
     </item>
     
   </channel>
