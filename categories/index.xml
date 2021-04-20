@@ -52,32 +52,5 @@
       <description></description>
     </item>
     
-    <item>
-      <title>Cinderella</title>
-      <link>/categories/cinderella/</link>
-      <pubDate>Fri, 02 Apr 2021 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/cinderella/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>March Madness</title>
-      <link>/categories/march-madness/</link>
-      <pubDate>Fri, 02 Apr 2021 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/march-madness/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>NCAA</title>
-      <link>/categories/ncaa/</link>
-      <pubDate>Fri, 02 Apr 2021 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/ncaa/</guid>
-      <description></description>
-    </item>
-    
   </channel>
 </rss>
