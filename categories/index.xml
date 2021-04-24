@@ -5,52 +5,6 @@
     <link>/categories/</link>
     <description>Recent content in Categories on Peyton Kort Blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Tue, 20 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Hand Size</title>
-      <link>/categories/hand-size/</link>
-      <pubDate>Tue, 20 Apr 2021 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/hand-size/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>NFL</title>
-      <link>/categories/nfl/</link>
-      <pubDate>Tue, 20 Apr 2021 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/nfl/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>QB</title>
-      <link>/categories/qb/</link>
-      <pubDate>Tue, 20 Apr 2021 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/qb/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Quarterback</title>
-      <link>/categories/quarterback/</link>
-      <pubDate>Tue, 20 Apr 2021 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/quarterback/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>R</title>
-      <link>/categories/r/</link>
-      <pubDate>Tue, 20 Apr 2021 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/r/</guid>
-      <description></description>
-    </item>
-    
+    <language>en-us</language><atom:link href="/categories/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>
