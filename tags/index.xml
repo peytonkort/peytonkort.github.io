@@ -5,6 +5,34 @@
     <link>/tags/</link>
     <description>Recent content in Tags on Peyton Kort Blog</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <language>en-us</language>
+    <lastBuildDate>Fri, 02 Apr 2021 00:00:00 +0000</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Basketball</title>
+      <link>/tags/basketball/</link>
+      <pubDate>Fri, 02 Apr 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/basketball/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>UCLA</title>
+      <link>/tags/ucla/</link>
+      <pubDate>Fri, 02 Apr 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/ucla/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>VCU</title>
+      <link>/tags/vcu/</link>
+      <pubDate>Fri, 02 Apr 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/vcu/</guid>
+      <description></description>
+    </item>
+    
   </channel>
 </rss>
