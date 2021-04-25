@@ -62,7 +62,7 @@
 
   <article class="article">
     
-    <span class="article-duration">38 min read</span>
+    <span class="article-duration">40 min read</span>
     
 
     <h1 class="article-title">Does a Quarterback&#39;s Hand Size Matter?</h1>
@@ -89,6 +89,7 @@
 ## x dplyr::lag()    masks stats::lag()</code></pre>
 <pre class="r"><code>library(ggrepel)
 library(waffle)</code></pre>
+<p>I got all of my data and stats from Sports-Reference.com for the main passing and rushing statistics. Then to get the hand size data I went through two websites, mockdraftable.com and playerprofiler.com. I would put each Quarterbacks hand size in a google sheet then make a .csv of the file.</p>
 <pre class="r"><code>qbstats &lt;- read_csv(&quot;~/Desktop/SPMC_350_Spring_2021/2021_spring_sports_data_analysis/data/qbstats2020.csv&quot;)</code></pre>
 <pre><code>## 
 ## ── Column specification ────────────────────────────────────────────────────────
@@ -110,32 +111,25 @@ library(waffle)</code></pre>
 ##   Pos = col_character(),
 ##   `Hand Size` = col_double()
 ## )</code></pre>
-<p>First let’s see the mean of hand sizes of all the Quarterbacks that played in the NFL last season. I can use this to make comparison’s down the road. Also I want to see QBs that have played a lot of time this year. So I am going to filter out for just Quarterbacks with 2 or more starts on the 2021 season.</p>
+<p>First I want to narrow my data set down to Quarterbacks that have had a lot of playing time over this season. So I want to filter out with QBs over 1000 passing yards. Also I want to see the mean of hand sizes of all the Quarterbacks that played in the NFL last season. I can use this to make comparison’s down the road.</p>
 <pre class="r"><code>qbstats &lt;- qbstats %&gt;%
   mutate(FmbG = Fmb/G) %&gt;%
   mutate(IntG = Int/G)</code></pre>
+<pre class="r"><code>qbstatsmorefiltered &lt;- qbstats %&gt;%
+  filter(`Pass Yds` &gt; 1000) %&gt;%
+  arrange(desc(`Pass Y/G`))</code></pre>
 <pre class="r"><code>mean(qbhandsize[[&quot;Hand Size&quot;]])</code></pre>
 <pre><code>## [1] 9.554688</code></pre>
-<pre class="r"><code>mean(qbstats[[&quot;Fmb&quot;]])</code></pre>
-<pre><code>## [1] 3.2</code></pre>
-<pre class="r"><code>mean(qbstats[[&quot;IntG&quot;]])</code></pre>
-<pre><code>## [1] 0.5746301</code></pre>
-<pre class="r"><code>mean(qbstats[[&quot;FmbG&quot;]])</code></pre>
-<pre><code>## [1] 0.3026362</code></pre>
-<pre class="r"><code>qbstatsfiltered &lt;- qbstats %&gt;%
-  filter(GS &gt; 1)</code></pre>
-<p>A stat that get’s compared to QB hand sizes are fumbles. The smaller the hands are the more fumbles a particular Quarterback is going to have. Let’s put this theory to the test and compare hand size and fumbles on a scatterplot.</p>
-<pre class="r"><code>ggplot(qbstatsfiltered, aes(x=`Hand Size`, y=FmbG)) + 
-  geom_point() + 
-  geom_hline(yintercept= 0.3026362, color=&quot;blue&quot;) + 
-  geom_vline(xintercept=9.554688, color = &quot;red&quot;)</code></pre>
-<p><img src="/2021/04/20/does-a-quarterback-s-hand-size-matter/index_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
-<p>Let’s narrow this down even more and show the QB’s with at least 1000 passing yards on the year.</p>
-<pre class="r"><code>qbstatsmorefiltered &lt;- qbstatsfiltered %&gt;%
-  filter(`Pass Yds` &gt; 1000) %&gt;%
-  arrange(desc(`Hand Size`))</code></pre>
+<pre class="r"><code>mean(qbstatsmorefiltered[[&quot;Fmb&quot;]])</code></pre>
+<pre><code>## [1] 5.846154</code></pre>
+<pre class="r"><code>mean(qbstatsmorefiltered[[&quot;IntG&quot;]])</code></pre>
+<pre><code>## [1] 0.720395</code></pre>
+<pre class="r"><code>mean(qbstatsmorefiltered[[&quot;FmbG&quot;]])</code></pre>
+<pre><code>## [1] 0.4598947</code></pre>
 <pre class="r"><code>mean(qbstatsmorefiltered[[&quot;Pass Y/G&quot;]])</code></pre>
 <pre><code>## [1] 238.0821</code></pre>
+<p>The statistics I want to compare hand size too is fumbles per game, interceptions per game and passing yards per game. I’m using per game data because some of these players didn’t play every game during the season. This should balance out the comparisons for those who didn’t play a full season.</p>
+<p>Hand size should play a part in fumbles, because of the ability to grip the football if you have bigger hands. Therefore you should fumble less than players with smaller hands. Also I’m going to compare interceptions, because they are a part of turnovers just like the fumbles. Lastly I chose passing yards per game because I want to see if hand size has any affect on that stat.</p>
 <pre class="r"><code>dak &lt;- qbstatsmorefiltered %&gt;%
   filter(Player == &quot;Dak Prescott&quot;)</code></pre>
 <pre class="r"><code>joeyb &lt;- qbstatsmorefiltered %&gt;%
@@ -144,15 +138,24 @@ library(waffle)</code></pre>
   filter(Rk == &quot;5&quot;)</code></pre>
 <pre class="r"><code>tom &lt;- qbstatsmorefiltered %&gt;%
   filter(Rk == &quot;2&quot;)</code></pre>
+<pre class="r"><code>foles &lt;- qbstatsmorefiltered %&gt;%
+  filter(Rk == &quot;30&quot;)</code></pre>
+<pre class="r"><code>deshaun &lt;- qbstatsmorefiltered %&gt;%
+  filter(Rk == &quot;10&quot;)</code></pre>
+<pre class="r"><code>baker &lt;- qbstatsmorefiltered %&gt;%
+  filter(Rk == &quot;17&quot;)</code></pre>
+<pre class="r"><code>lamar &lt;- qbstatsmorefiltered %&gt;%
+  filter(Rk == &quot;24&quot;)</code></pre>
 <pre class="r"><code>ggplot(qbstatsmorefiltered, aes(x=`Hand Size`, y=FmbG)) + 
   geom_point() + 
-  geom_hline(yintercept= 0.3026362, color=&quot;blue&quot;) + 
+  geom_hline(yintercept= 0.4598947, color=&quot;blue&quot;) + 
   geom_vline(xintercept=9.554688, color = &quot;red&quot;) + 
   geom_point(data = qbstatsmorefiltered, aes(x=`Hand Size`, y=FmbG), color = &quot;Gray&quot;) +
   geom_point(data = dak, aes(x=`Hand Size`, y=FmbG), color = &quot;#003594&quot;) +
   geom_point(data = tom, aes(x=`Hand Size`, y=FmbG), color = &quot;#34302B&quot;) + 
   geom_point(data = mahomes, aes(x=`Hand Size`, y=FmbG), color = &quot;#E31837&quot;) + 
   geom_point(data = joeyb, aes(x=`Hand Size`, y=FmbG), color = &quot;#FB4F14&quot;) +
+  geom_point(data = foles, aes(x=`Hand Size`, y=FmbG), color = &quot;#0B162A&quot;) +
     labs(title = &quot;&quot;, subtitle = &quot;&quot;, x = &quot;Hand Size&quot;, y = &quot;Fumbles per Game&quot;, caption = &quot;Source: Sports-Reference.com | By Peyton Kort&quot;) + 
   geom_text_repel(
     data=dak, 
@@ -165,8 +168,11 @@ library(waffle)</code></pre>
     aes(x=`Hand Size`, y=FmbG, label=Player)) + 
   geom_text_repel(
     data=mahomes, 
+    aes(x=`Hand Size`, y=FmbG, label=Player)) + 
+  geom_text_repel(
+    data=foles,
     aes(x=`Hand Size`, y=FmbG, label=Player))</code></pre>
-<p><img src="/2021/04/20/does-a-quarterback-s-hand-size-matter/index_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<p><img src="/2021/04/20/does-a-quarterback-s-hand-size-matter/index_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
 <pre class="r"><code>  theme_minimal() + 
   theme(
     plot.title = element_text(size = 16, face = &quot;bold&quot;),
@@ -564,15 +570,17 @@ library(waffle)</code></pre>
 ##  - attr(*, &quot;class&quot;)= chr [1:2] &quot;theme&quot; &quot;gg&quot;
 ##  - attr(*, &quot;complete&quot;)= logi TRUE
 ##  - attr(*, &quot;validate&quot;)= logi TRUE</code></pre>
+<p>The red and blue lines in this scatter plot shows the average for both hand size and fumbles per game of Quarterbacks in the NFL. You can see that Joe Burrow (2020 #1 overall pick) had the highest fumble per game average, with his small hands of just 9.0 inches. Players like Tom Brady of the Tampa Bay Buccaneers and Patrick Mahomes of the Kansas City Chiefs have below the average hands, and fumbled just below the league average. Dak Prescott of the Dallas Cowboys, who has the biggest hands of the anyone in the data set, had a relatively high fumble per game rate. And Nick Foles of the Chicago Bears who has just over 10.5 inch hands, had a very low fumble per game rate.</p>
 <pre class="r"><code>ggplot(qbstatsmorefiltered, aes(x=`Hand Size`, y=IntG)) + 
   geom_point() + 
-  geom_hline(yintercept= 0.5746301, color=&quot;blue&quot;) + 
+  geom_hline(yintercept= 0.720395, color=&quot;blue&quot;) + 
   geom_vline(xintercept=9.554688, color = &quot;red&quot;) + 
   geom_point(data = qbstatsmorefiltered, aes(x=`Hand Size`, y=IntG), color = &quot;Gray&quot;) +
   geom_point(data = dak, aes(x=`Hand Size`, y=IntG), color = &quot;#003594&quot;) +
   geom_point(data = tom, aes(x=`Hand Size`, y=IntG), color = &quot;#34302B&quot;) + 
   geom_point(data = mahomes, aes(x=`Hand Size`, y=IntG), color = &quot;#E31837&quot;) + 
-  geom_point(data = joeyb, aes(x=`Hand Size`, y=IntG), color = &quot;#FB4F14&quot;) +
+  geom_point(data = joeyb, aes(x=`Hand Size`, y=IntG), color = &quot;#FB4F14&quot;) + 
+  geom_point(data = deshaun, aes(x=`Hand Size`, y=IntG), color = &quot;#03202F&quot;) +
     labs(title = &quot;&quot;, subtitle = &quot;&quot;, x = &quot;Hand Size&quot;, y = &quot;Interceptions per Game&quot;, caption = &quot;Source: Sports-Reference.com | By Peyton Kort&quot;) + 
   geom_text_repel(
     data=dak, 
@@ -585,8 +593,11 @@ library(waffle)</code></pre>
     aes(x=`Hand Size`, y=IntG, label=Player)) + 
   geom_text_repel(
     data=mahomes, 
+    aes(x=`Hand Size`, y=IntG, label=Player)) + 
+  geom_text_repel(
+    data=deshaun,
     aes(x=`Hand Size`, y=IntG, label=Player))</code></pre>
-<p><img src="/2021/04/20/does-a-quarterback-s-hand-size-matter/index_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p><img src="/2021/04/20/does-a-quarterback-s-hand-size-matter/index_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
 <pre class="r"><code>  theme_minimal() + 
   theme(
     plot.title = element_text(size = 16, face = &quot;bold&quot;),
@@ -984,6 +995,7 @@ library(waffle)</code></pre>
 ##  - attr(*, &quot;class&quot;)= chr [1:2] &quot;theme&quot; &quot;gg&quot;
 ##  - attr(*, &quot;complete&quot;)= logi TRUE
 ##  - attr(*, &quot;validate&quot;)= logi TRUE</code></pre>
+<p>The red and blue lines again show the average of hand size and interceptions per game. As you can see Dak Prescott and Tom Brady are above the average for interceptions per game, despite Dak having 10.875 inch hands and Tom having 9.375 inch hands. Then you got Joe Burrow and Patrick Mahomes having below average hand size and below average interceptions per game. Then you got Deshaun Watson of the Houston Texans, the NFL’s leading passer in the 2020 season, having a low interception per game rate with above average size hands.</p>
 <pre class="r"><code>ggplot(qbstatsmorefiltered, aes(x=`Hand Size`, y=`Pass Y/G`)) + 
   geom_point() + 
   geom_hline(yintercept= 238.0821, color=&quot;blue&quot;) + 
@@ -992,7 +1004,8 @@ library(waffle)</code></pre>
   geom_point(data = dak, aes(x=`Hand Size`, y=`Pass Y/G`), color = &quot;#003594&quot;) +
   geom_point(data = tom, aes(x=`Hand Size`, y=`Pass Y/G`), color = &quot;#34302B&quot;) + 
   geom_point(data = mahomes, aes(x=`Hand Size`, y=`Pass Y/G`), color = &quot;#E31837&quot;) + 
-  geom_point(data = joeyb, aes(x=`Hand Size`, y=`Pass Y/G`), color = &quot;#FB4F14&quot;) +
+  geom_point(data = lamar, aes(x=`Hand Size`, y=`Pass Y/G`), color = &quot;#241773&quot;) + 
+  geom_point(data = baker, aes(x=`Hand Size`, y=`Pass Y/G`), color = &quot;#FF3C00&quot;) + 
     labs(title = &quot;&quot;, subtitle = &quot;&quot;, x = &quot;Hand Size&quot;, y = &quot;Passing Yards per Game&quot;, caption = &quot;Source: Sports-Reference.com | By Peyton Kort&quot;) + 
   geom_text_repel(
     data=dak, 
@@ -1001,12 +1014,15 @@ library(waffle)</code></pre>
     data=tom, 
     aes(x=`Hand Size`, y=`Pass Y/G`, label=Player)) + 
   geom_text_repel(
-    data=joeyb, 
+    data=lamar, 
     aes(x=`Hand Size`, y=`Pass Y/G`, label=Player)) + 
   geom_text_repel(
     data=mahomes, 
+    aes(x=`Hand Size`, y=`Pass Y/G`, label=Player)) +
+  geom_text_repel(
+    data=baker, 
     aes(x=`Hand Size`, y=`Pass Y/G`, label=Player))</code></pre>
-<p><img src="/2021/04/20/does-a-quarterback-s-hand-size-matter/index_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p><img src="/2021/04/20/does-a-quarterback-s-hand-size-matter/index_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
 <pre class="r"><code>  theme_minimal() + 
   theme(
     plot.title = element_text(size = 16, face = &quot;bold&quot;),
@@ -1427,7 +1443,7 @@ library(waffle)</code></pre>
     plot.subtitle = element_text(size=6), 
     panel.grid.minor = element_blank()
     )</code></pre>
-<p><img src="/2021/04/20/does-a-quarterback-s-hand-size-matter/index_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<p><img src="/2021/04/20/does-a-quarterback-s-hand-size-matter/index_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
 <pre class="r"><code>wafflechart &lt;- c(&quot;Jared Goff&quot;=7, &quot;Russel Wilson&quot;=7)
 
 waffle(
@@ -1437,7 +1453,7 @@ waffle(
   xlab = &quot;1 square = 1 fumble&quot;,
   colors = c(&quot;#003594&quot;, &quot;#69BE28&quot;)
 )</code></pre>
-<p><img src="/2021/04/20/does-a-quarterback-s-hand-size-matter/index_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<p><img src="/2021/04/20/does-a-quarterback-s-hand-size-matter/index_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
 <pre class="r"><code>wafflechart2 &lt;- c(&quot;Ryan Tannehill&quot;=6, &quot;Josh Allen&quot;=9)
 
 waffle(
@@ -1447,7 +1463,7 @@ waffle(
   xlab = &quot;1 square = 1 fumble&quot;,
   colors = c(&quot;#4B92DB&quot;, &quot;#00338D&quot;)
 )</code></pre>
-<p><img src="/2021/04/20/does-a-quarterback-s-hand-size-matter/index_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+<p><img src="/2021/04/20/does-a-quarterback-s-hand-size-matter/index_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
 <pre class="r"><code>wafflechartpass &lt;- c(&quot;Jared Goff&quot;=263.5, &quot;Russel Wilson&quot;=263.3)
 
 waffle(
@@ -1457,7 +1473,7 @@ waffle(
   xlab = &quot;1 square = 1 yard&quot;,
   colors = c(&quot;#003594&quot;, &quot;#69BE28&quot;)
 )</code></pre>
-<p><img src="/2021/04/20/does-a-quarterback-s-hand-size-matter/index_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<p><img src="/2021/04/20/does-a-quarterback-s-hand-size-matter/index_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
 <pre class="r"><code>wafflechartpass2 &lt;- c(&quot;Ryan Tannehill&quot;=238.7, &quot;Josh Allen&quot;=284.0)
 
 waffle(
@@ -1467,7 +1483,7 @@ waffle(
   xlab = &quot;1 square = 1 yard&quot;,
   colors = c(&quot;#4B92DB&quot;, &quot;#00338D&quot;)
 )</code></pre>
-<p><img src="/2021/04/20/does-a-quarterback-s-hand-size-matter/index_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<p><img src="/2021/04/20/does-a-quarterback-s-hand-size-matter/index_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
 
     </div>
   </article>
